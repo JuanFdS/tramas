@@ -1,0 +1,28 @@
+{
+  "name": "tramas",
+  "version": "1.0.0",
+  "description": "Programita para ayudarme a aprender de memoria como parsear algunas tramas",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "create-react-class": "^15.6.3",
+    "parcel-bundler": "^1.10.2",
+    "purescript": "^0.12.1",
+    "purescript-spago": "^0.6.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "todomvc-app-css": "^2.1.2",
+    "todomvc-common": "^1.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "spago install",
+    "build": "spago build",
+    "build-production": "spago build && parcel build index.html --public-url ./",
+    "clean": "rm -rf .cache .spago .psci_modules node_modules output dist"
+  },
+  "author": "Juan Manuel Fernands dos Santos <juan9794@gmail.com>",
+  "license": "ISC"
+}
