@@ -18,6 +18,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html",
     "install": "spago install",
     "build": "spago build",
     "build-production": "spago build && parcel build index.html --public-url ./",

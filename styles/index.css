@@ -1,0 +1,28 @@
+.app {
+    display: flex;
+    justify-content: center;
+}
+
+.ejercicio {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.enunciado {
+    justify-self: center;
+    width: 920px;
+    padding: 10px;
+    border: 0.5em solid black;
+    border-style: dashed;
+    background: lightslategray;
+    font-family: 'Courier New', Courier, monospace
+  }
+
+.boton-mostrarSolucion {
+
+}
+
+.solucion {
+    width: 600px;
+}
