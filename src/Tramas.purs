@@ -39,7 +39,6 @@ derive instance genericTrama :: Generic Trama _
 
 instance bytesFromTrama :: Bytes Trama where
   bytes (EthernetII trama) =
-    bytes trama.preambulo <>
     bytes trama.sfd <>
     bytes trama.macDestino <>
     bytes trama.macOrigen <>
@@ -48,7 +47,6 @@ instance bytesFromTrama :: Bytes Trama where
     bytes trama.pad <>
     bytes trama.fcs
   bytes (T8023 trama) =
-    bytes trama.preambulo <>
     bytes trama.macDestino <>
     bytes trama.macOrigen <>
     bytes trama.length <>
@@ -83,7 +81,6 @@ class Corregible a where
 instance corregibleTrama :: Corregible Trama where
   correccion (EthernetII trama) =
     pure "Tipo de trama: EthernetII" <>
-    map ("Preambulo: " <> _) (correccion trama.preambulo) <>
     map ("Mac destino: " <> _) (correccion trama.macDestino) <>
     map ("Mac origen: " <> _) (correccion trama.macOrigen) <>
     map ("Tipo: " <> _) (correccion trama.type) <>
@@ -93,7 +90,6 @@ instance corregibleTrama :: Corregible Trama where
 
   correccion (T8023 trama) =
     ["Tipo de trama: 802.3"] <>
-    map ("Preambulo: " <> _) (correccion trama.preambulo) <>
     map ("Mac destino: " <> _) (correccion trama.macDestino) <>
     map ("Mac origen: " <> _) (correccion trama.macOrigen) <>
     map ("Longitud: " <> _) (correccion trama.length) <>
