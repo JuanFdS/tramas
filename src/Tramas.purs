@@ -78,24 +78,27 @@ logRespuesta trama = log $ joinWith "\n" $ correccion trama
 class Corregible a where
   correccion :: a -> Array String
 
+correccionConNombreDelCampo :: forall a. Corregible a => String -> a -> Array String
+correccionConNombreDelCampo nombreDelCampo campo = map (nombreDelCampo <> _) (correccion campo) 
+
 instance corregibleTrama :: Corregible Trama where
   correccion (EthernetII trama) =
     pure "Tipo de trama: EthernetII" <>
-    map ("Mac destino: " <> _) (correccion trama.macDestino) <>
-    map ("Mac origen: " <> _) (correccion trama.macOrigen) <>
-    map ("Tipo: " <> _) (correccion trama.type) <>
-    map ("Payload: " <> _) (correccion trama.payload) <>
-    map ("Pad: " <> _) (correccion trama.pad) <>
-    map ("FCS: " <> _) (correccion trama.fcs)
+    correccionConNombreDelCampo "Mac destino: " trama.macDestino <>
+    correccionConNombreDelCampo "Mac origen: " trama.macOrigen <>
+    correccionConNombreDelCampo "Tipo: " trama.type <>
+    correccionConNombreDelCampo "Payload: " trama.payload <>
+    correccionConNombreDelCampo "Pad: " trama.pad <>
+    correccionConNombreDelCampo "FCS: " trama.fcs
 
   correccion (T8023 trama) =
-    ["Tipo de trama: 802.3"] <>
-    map ("Mac destino: " <> _) (correccion trama.macDestino) <>
-    map ("Mac origen: " <> _) (correccion trama.macOrigen) <>
-    map ("Longitud: " <> _) (correccion trama.length) <>
-    map ("Payload: " <> _) (correccion trama.payload) <>
-    map ("Pad: " <> _) (correccion trama.pad) <>
-    map ("FCS: " <> _) (correccion trama.fcs)
+    pure "Tipo de trama: 802.3" <>
+    correccionConNombreDelCampo "Mac destino: " trama.macDestino <>
+    correccionConNombreDelCampo "Mac origen: " trama.macOrigen <>
+    correccionConNombreDelCampo "Longitud: " trama.length <>
+    correccionConNombreDelCampo "Payload: " trama.payload <>
+    correccionConNombreDelCampo "Pad: " trama.pad <>
+    correccionConNombreDelCampo "FCS: " trama.fcs
 
 else instance corregibleMacAddress :: Corregible MacAddress where
   correccion Broadcast = pure $ mostrar Broadcast <> " - " <> "Broadcast"
