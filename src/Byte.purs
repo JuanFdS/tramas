@@ -2,7 +2,7 @@ module Byte where
 
 import Prelude
 
-import Data.Array (dropEnd, length, replicate, takeEnd, take, drop)
+import Data.Array (dropEnd, length, replicate, takeEnd, take, drop, concat)
 import Data.Foldable (foldl)
 import Data.Int (rem)
 import Data.NonEmpty ((:|))
@@ -42,6 +42,9 @@ bitsToBytes :: Array Bit -> Array Byte
 bitsToBytes bits | length bits <= 8 = [pad bitZero 8 bits]
                  | otherwise = bitsToBytes (dropEnd 8 bits) <> [takeEnd 8 bits]
 
+bytesToBits :: Array Byte -> Array Bit
+bytesToBits = concat
+
 intToByte :: Int -> Byte
 intToByte = intToBits
 
@@ -57,8 +60,11 @@ bytesToInt = foldl (\acum byte -> byteToInt byte + acum * 256) 0
 nibbleToInt :: Byte -> Int
 nibbleToInt = bitsToInt
 
-class Bytes a where
-    bytes :: a -> Array Byte
+class Bits a where
+    bits :: a -> Array Bit
+
+bytes :: forall a. Bits a => a -> Array Byte
+bytes = bitsToBytes <<< bits
 
 showByte :: Byte -> String
 showByte aByte = fromCharArray [nibbleToChar (take 4 aByte), nibbleToChar (drop 4 aByte)]
